@@ -1,0 +1,27 @@
+{
+  "name": "mcdonalds",
+  "version": "1.0.0",
+  "description": "McDonald's pk website clone for semester project (MERN stack)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Attash2312/McDonalds.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Attash2312/McDonalds/issues"
+  },
+  "homepage": "https://github.com/Attash2312/McDonalds#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "ejs": "^3.1.10"
+  }
+}
