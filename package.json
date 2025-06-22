@@ -24,6 +24,5 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0"
   },
-  "devDependencies": {},
   "description": "A full-stack web application for McDonald's with user authentication, menu management, cart functionality, order processing, and admin panel."
 }
