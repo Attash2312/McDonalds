@@ -4,12 +4,40 @@ const { isAuthenticated } = require('../middleware/auth');
 const MenuItem = require('../models/Menu');
 const mongoose = require('mongoose');
 
+// Health check route
+router.get('/health', (req, res) => {
+    res.json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        environment: process.env.NODE_ENV || 'development'
+    });
+});
+
+// Test route for debugging
+router.get('/test', (req, res) => {
+    res.json({
+        message: 'Server is running',
+        timestamp: new Date().toISOString(),
+        databaseState: mongoose.connection.readyState,
+        environment: process.env.NODE_ENV || 'development'
+    });
+});
+
 // Public routes
 router.get('/', (req, res) => {
-    res.render('index', {
-        title: 'Home',
-        isAuthPage: false
-    });
+    try {
+        res.render('index', {
+            title: 'Home',
+            isAuthPage: false
+        });
+    } catch (error) {
+        console.error('Error rendering homepage:', error);
+        res.status(500).json({
+            error: 'Failed to render homepage',
+            message: error.message
+        });
+    }
 });
 
 router.get('/menu', async (req, res) => {

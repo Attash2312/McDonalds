@@ -27,6 +27,7 @@ NODE_ENV=production
 3. Create a new cluster (free tier available)
 4. Create a database user with read/write permissions
 5. Get your connection string from the "Connect" button
+6. **Important**: In Network Access, add `0.0.0.0/0` to allow connections from anywhere (or add Vercel's IP ranges)
 
 ### Step 2: Configure Vercel Environment Variables
 1. Go to your Vercel dashboard
@@ -34,23 +35,42 @@ NODE_ENV=production
 3. Go to Settings > Environment Variables
 4. Add the following variables:
    - `MONGODB_URI`: Your MongoDB Atlas connection string
-   - `SESSION_SECRET`: A random secret string for sessions
+   - `SESSION_SECRET`: A random secret string for sessions (use a strong password)
    - `NODE_ENV`: Set to `production`
 
 ### Step 3: Redeploy
 After setting the environment variables, redeploy your application.
 
+## Recent Improvements Made
+
+✅ **Database Connection**: Enhanced to handle serverless environments better
+✅ **Session Storage**: Now uses MongoDB instead of MemoryStore for production
+✅ **Error Handling**: Improved to prevent crashes in serverless environment
+✅ **Server Configuration**: Optimized for Vercel's serverless functions
+
 ## Important Notes
 
-- The application now handles serverless environments better
-- Database connections are managed more efficiently
-- Session storage warning is shown but won't crash the app
-- The app will work with MongoDB Atlas cloud database
+- The application now uses MongoDB for session storage (production-ready)
+- Database connections are managed efficiently for serverless environments
+- Sessions will persist across serverless function invocations
+- The app is now fully compatible with Vercel's serverless architecture
 
 ## Troubleshooting
 
 If you still get connection errors:
-1. Make sure your MongoDB Atlas cluster is running
-2. Check that your IP address is whitelisted in Atlas (or use 0.0.0.0/0 for all IPs)
-3. Verify your connection string is correct
-4. Ensure your database user has the right permissions 
+1. **Check MongoDB Atlas**: Make sure your cluster is running and accessible
+2. **Network Access**: Ensure your Atlas cluster allows connections from `0.0.0.0/0`
+3. **Connection String**: Verify your MongoDB URI is correct and includes the database name
+4. **User Permissions**: Ensure your database user has read/write permissions
+5. **Environment Variables**: Double-check that all variables are set correctly in Vercel
+
+## Testing Your Deployment
+
+After setup, test these features:
+- User registration and login
+- Menu browsing
+- Cart functionality
+- Order placement
+- Admin panel access
+
+If any of these fail, check the Vercel function logs for specific error messages. 
