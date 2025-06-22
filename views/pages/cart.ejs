@@ -1,0 +1,86 @@
+<h1 class="mb-4">Shopping Cart</h1>
+
+<% if (locals.success_msg && success_msg.length > 0) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= success_msg %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<% if (locals.error_msg && error_msg.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= error_msg %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<% if (cart && cart.length > 0) { %>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% cart.forEach(item => { %>
+                    <tr>
+                        <td><%= item.name %></td>
+                        <td>$<%= item.price.toFixed(2) %></td>
+                        <td>
+                            <form action="/cart/update/<%= item.productId %>" method="POST" class="d-flex align-items-center">
+                                <div class="input-group" style="width: 150px;">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="decrementQuantity(this)">-</button>
+                                    <input type="number" name="quantity" value="<%= item.quantity %>" min="1" class="form-control form-control-sm text-center">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="incrementQuantity(this)">+</button>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm ms-2">Update</button>
+                            </form>
+                        </td>
+                        <td>$<%= (item.price * item.quantity).toFixed(2) %></td>
+                        <td>
+                            <form action="/cart/remove/<%= item.productId %>" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                    <td><strong>$<%= total.toFixed(2) %></strong></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="/menu" class="btn bg-warning w-40">Continue Shopping</a>
+        <a href="/cart/checkout" class="btn bg-warning w-40">Proceed to Checkout</a>
+    </div>
+<% } else { %>
+    <div class="alert alert-info">
+        Your cart is empty. <a href="/menu">Continue shopping</a>
+    </div>
+<% } %>
+
+<script>
+function incrementQuantity(button) {
+    const input = button.parentElement.querySelector('input');
+    input.value = parseInt(input.value) + 1;
+}
+
+function decrementQuantity(button) {
+    const input = button.parentElement.querySelector('input');
+    const currentValue = parseInt(input.value);
+    if (currentValue > 1) {
+        input.value = currentValue - 1;
+    }
+}
+</script> 

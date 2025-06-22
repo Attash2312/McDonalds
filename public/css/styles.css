@@ -1,0 +1,213 @@
+@media screen and (min-width: 768px) {
+    .navbar-mobile {
+      display: none; /* Hide mobile navbar */
+    }
+  }
+@media screen and (max-width: 768px) {
+    .navbar-pc {
+      display: none; /* Hide desktop navbar */
+
+    }
+    .navbar-mobile {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-brand img{
+        width: 50px;
+        height: 50px;
+    }
+    .deliverybtn{
+        background-color: rgb(207, 207, 3);
+        font-size: small;
+        font-weight: bold;
+        margin-right: 20%;
+        align-items: center;
+        justify-content: center;
+
+
+      }
+      .deliverybtn a{
+        padding: 10%;
+        width: 200%;
+        height: 100%;
+      }
+    
+  }
+
+/* Custom styles for spacing and alignment */
+.navbar-custom {
+    background-color: #ffffff; /* Light background */
+    padding: 0.5rem 1rem; /* Adjust navbar padding */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-custom .navbar-brand {
+    margin-right: 0; /* Remove default margin */
+  }
+  
+  .navbar-custom .nav-link {
+    padding: 0.5rem 1rem; /* Adjust link padding */
+    font-size: 0.9rem; /* Smaller font size */
+  }
+  
+  .upper-row .left-links,
+  .upper-row .right-links {
+    display: flex;
+  }
+  
+  .upper-row .right-links {
+    margin-left: auto; /* Push right links to the far right */
+  }
+  
+  .lower-row {
+    display: flex;
+    justify-content: space-between; /* Evenly space links */
+    margin-top: 0.5rem; /* Add space between upper and lower rows */
+    margin-right: 40px; /* Add space between right edge of the screen */
+  }
+
+  /* Add red underline on hover using border-bottom */
+.lower-row .nav-link:hover {
+    border-bottom: 4px solid red; /* Red underline */
+    padding-bottom: 0px; /* Optional: Add spacing between text and underline */
+  }
+  
+  /* Mega Menu Styles */
+.navbar-megamenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100vw; /* Full viewport width */
+  background-color: white;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px 50px;
+  z-index: 999;
+  display: none;
+}
+
+.nav-item.dropdown:hover .navbar-megamenu {
+  display: block;
+  margin-left: -150px;
+}
+
+/* Grid styling for 3x3 layout */
+.navbar-megamenu .row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.megamenu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.megamenu-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.megamenu-item a {
+  color: #333;
+  font-weight: 500;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.megamenu-item a:hover {
+  color: #da291c;
+}
+
+.megamenu-view-all {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+/* Active state for menu */
+.nav-item.dropdown:hover .nav-link {
+  border-bottom: 4px solid red;
+  padding-bottom: 0;
+}
+
+  .deliverybtn{
+    background-color: rgb(207, 207, 3);
+  }
+
+  .carousel-caption{
+    
+    display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+    background-color: #ffffff;
+    color: black;
+    width: 30%;
+    height: 55%;
+    border-radius: 5px;
+    z-index: 10;
+    top: 150px;
+    left: 50px;
+    
+  }
+
+    .carousel-caption h5{
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .hero-section{
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 0 0 10px 10px;
+      margin: 10px;
+    }
+
+    /* Custom styles for h5 */
+.custom-heading {
+    font-size: 1.5rem; /* Increase font size */
+    font-weight: 700; /* Increase font weight (bold) */
+    color: rgb(214, 2, 2); /* Dark red color */
+  }
+
+  
+  /* Ensure card body takes full height and aligns content properly */
+  .card-body {
+    flex: 1; /* Make card body take remaining space */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Ensure button is always at the bottom and centered */
+  .mt-auto {
+    margin-top: auto; /* Push button to the bottom */
+  }
+
+  .social-icons a{
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding-left: 6px;
+    margin: 10px;
+  }
+
+  .social-section {
+    position: relative; /* Add this to make ::after work */
+    margin-bottom: 10px;
+  }
+  .social-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0%; /* Start 10% from the left */
+    width: 100%; /* 80% of the section width */
+    height: 1px; /* Thin line */
+    background-color: #ccc; /* Light gray color */
+}

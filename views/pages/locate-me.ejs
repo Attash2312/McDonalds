@@ -1,0 +1,322 @@
+<div class="container mt-4">
+    <!-- Search Box -->
+    <div class="search-container mb-4">
+        <div class="search-label mb-2">City, Area</div>
+        <input type="text" class="form-control" placeholder="Lahore, Pakistan" id="locationSearch">
+    </div>
+
+    <!-- Checkboxes in rows of 5 -->
+    <div class="checkbox-container mb-4">
+        <div class="row mb-2">
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="offers">
+                    <label class="form-check-label" for="offers">Accepts Offers</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="accessibility">
+                    <label class="form-check-label" for="accessibility">Accessibility</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="birthday">
+                    <label class="form-check-label" for="birthday">Birthday Parties</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="breakfast">
+                    <label class="form-check-label" for="breakfast">Breakfast</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="children">
+                    <label class="form-check-label" for="children">Children's Parties</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="driveThru">
+                    <label class="form-check-label" for="driveThru">Drive Thru</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="indoor">
+                    <label class="form-check-label" for="indoor">Indoor Dining</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="lobby">
+                    <label class="form-check-label" for="lobby">Lobby Seating</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="mccafe">
+                    <label class="form-check-label" for="mccafe">McCafé</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="mcdelivery">
+                    <label class="form-check-label" for="mcdelivery">McDelivery Service</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="24hours">
+                    <label class="form-check-label" for="24hours">Open 24 Hours</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="outdoor">
+                    <label class="form-check-label" for="outdoor">Outdoor Seating</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="parking">
+                    <label class="form-check-label" for="parking">Parking Area</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="party">
+                    <label class="form-check-label" for="party">Party Room</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="playplace">
+                    <label class="form-check-label" for="playplace">Play Place</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="kiosk">
+                    <label class="form-check-label" for="kiosk">Self Order Kiosk</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="table">
+                    <label class="form-check-label" for="table">Table Service</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="takeaway">
+                    <label class="form-check-label" for="takeaway">Take Away</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="wifi">
+                    <label class="form-check-label" for="wifi">Wi-Fi</label>
+                </div>
+            </div>
+            <div class="col">
+                <!-- Empty column to maintain alignment -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Radius Selector -->
+    <div class="radius-selector mb-4">
+        <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle w-100 text-start" type="button" id="radiusDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" data-bs-offset="0,10" aria-expanded="false">
+                5 km
+            </button>
+            <ul class="dropdown-menu w-100" aria-labelledby="radiusDropdown">
+                <li><a class="dropdown-item active" href="#" data-radius="5">5 km</a></li>
+                <li><a class="dropdown-item" href="#" data-radius="10">10 km</a></li>
+                <li><a class="dropdown-item" href="#" data-radius="25">25 km</a></li>
+                <li><a class="dropdown-item" href="#" data-radius="50">50 km</a></li>
+                <li><a class="dropdown-item" href="#" data-radius="100">100 km</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Results and Map Container -->
+    <div class="row">
+        <!-- Results Column -->
+        <div class="col-md-4">
+            <div class="results-container">
+                <div class="result-item mb-3">
+                    <h6>McDonald's Gulberg</h6>
+                    <p class="mb-1">Main Boulevard, Gulberg III</p>
+                    <p class="mb-1">Lahore, Pakistan</p>
+                    <p class="mb-1">Distance: 2.3 km</p>
+                </div>
+                <div class="result-item mb-3">
+                    <h6>McDonald's Liberty</h6>
+                    <p class="mb-1">Liberty Market</p>
+                    <p class="mb-1">Lahore, Pakistan</p>
+                    <p class="mb-1">Distance: 3.1 km</p>
+                </div>
+                <div class="result-item mb-3">
+                    <h6>McDonald's MM Alam</h6>
+                    <p class="mb-1">MM Alam Road</p>
+                    <p class="mb-1">Lahore, Pakistan</p>
+                    <p class="mb-1">Distance: 4.2 km</p>
+                </div>
+            </div>
+        </div>
+        <!-- Map Column -->
+        <div class="col-md-8">
+            <div id="map" style="height: 600px; width: 100%;"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+.search-label {
+    font-size: 1.1rem;
+    color: black;
+}
+
+.form-control::placeholder {
+    color: #999;
+}
+
+.form-check-label {
+    color: black;
+    font-size: 0.9rem;
+}
+
+.radius-selector .dropdown-toggle {
+    background-color: white;
+    color: black;
+    border: 1px solid #dee2e6;
+    padding: 0.375rem 0.75rem;
+}
+
+.radius-selector .dropdown-toggle::after {
+    display: none;
+}
+
+.radius-selector .dropdown-toggle:hover,
+.radius-selector .dropdown-toggle:focus {
+    background-color: white;
+    color: black;
+    border-color: #dee2e6;
+}
+
+.radius-selector .dropdown-item:hover {
+    background-color: rgb(207, 207, 3);
+}
+
+.radius-selector .dropdown-item.active {
+    background-color: rgb(207, 207, 3);
+    color: black;
+}
+
+.dropdown-menu {
+    margin-top: 0.5rem !important;
+    transform: none !important;
+    top: 100% !important;
+    left: 0 !important;
+}
+
+.results-container {
+    background: white;
+    padding: 1rem;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.result-item {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item:hover {
+    background-color: #f8f9fa;
+}
+
+.result-item h6 {
+    margin-bottom: 0.5rem;
+    color: black;
+}
+
+.result-item p {
+    color: #666;
+    font-size: 0.9rem;
+}
+</style>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap" async defer></script>
+<script>
+function initMap() {
+    const defaultLocation = { lat: 31.5204, lng: 74.3587 }; // Lahore coordinates
+    
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 12,
+        center: defaultLocation,
+    });
+
+    const circle = new google.maps.Circle({
+        strokeColor: "#FF0000",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#FF0000",
+        fillOpacity: 0.35,
+        map,
+        center: defaultLocation,
+        radius: 5000, // 5km default
+    });
+
+    // Add markers for sample locations
+    const locations = [
+        { lat: 31.5204, lng: 74.3587, title: "McDonald's Gulberg" },
+        { lat: 31.5154, lng: 74.3457, title: "McDonald's Liberty" },
+        { lat: 31.5254, lng: 74.3687, title: "McDonald's MM Alam" }
+    ];
+
+    locations.forEach(location => {
+        new google.maps.Marker({
+            position: { lat: location.lat, lng: location.lng },
+            map: map,
+            title: location.title
+        });
+    });
+
+    // Update radius when dropdown item is selected
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const radius = parseInt(this.dataset.radius) * 1000;
+            circle.setRadius(radius);
+            document.getElementById('radiusDropdown').textContent = this.textContent;
+            
+            // Update active state
+            document.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+}
+</script> 

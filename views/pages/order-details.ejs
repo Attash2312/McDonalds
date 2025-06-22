@@ -1,0 +1,187 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">Order Details</h3>
+                        <a href="/my-orders" class="btn btn-yellow btn-sm">
+                            <i class="fas fa-arrow-left"></i> Back to Orders
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Order Header -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Order Information</h5>
+                            <p><strong>Order ID:</strong> #<%= order._id.toString().slice(-8) %></p>
+                            <p><strong>Date:</strong> <%= new Date(order.createdAt).toLocaleDateString() %></p>
+                            <p><strong>Time:</strong> <%= new Date(order.createdAt).toLocaleTimeString() %></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Status</h5>
+                            <span class="badge <%= order.status === 'completed' ? 'bg-success' : 
+                                               order.status === 'pending' ? 'bg-warning' : 
+                                               order.status === 'cancelled' ? 'bg-danger' : 'bg-secondary' %> fs-6">
+                                <%= order.status.charAt(0).toUpperCase() + order.status.slice(1) %>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Information -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5>Delivery Information</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Name:</strong> <%= order.user.name %></p>
+                                    <p><strong>Phone:</strong> <%= order.user.phone %></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Address:</strong> <%= order.user.address %></p>
+                                    <p><strong>Email:</strong> <%= req.user.email %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Items -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5>Order Items</h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th class="text-center">Quantity</th>
+                                            <th class="text-end">Price</th>
+                                            <th class="text-end">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% order.items.forEach(item => { %>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <% if (item.product && item.product.image) { %>
+                                                            <img src="<%= item.product.image %>" alt="<%= item.product.name %>" 
+                                                                 class="me-3" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
+                                                        <% } %>
+                                                        <div>
+                                                            <strong><%= item.product ? item.product.name : item.title %></strong>
+                                                            <% if (item.product && item.product.description) { %>
+                                                                <br><small class="text-muted"><%= item.product.description %></small>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-secondary"><%= item.quantity %></span>
+                                                </td>
+                                                <td class="text-end">$<%= item.price ? item.price.toFixed(2) : '0.00' %></td>
+                                                <td class="text-end">$<%= ((item.price || 0) * item.quantity).toFixed(2) %></td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="row">
+                        <div class="col-md-6 offset-md-6">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title">Order Summary</h5>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Subtotal:</span>
+                                        <span>$<%= (order.totalAmount * 0.9).toFixed(2) %></span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Tax (10%):</span>
+                                        <span>$<%= (order.totalAmount * 0.1).toFixed(2) %></span>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between">
+                                        <strong>Total:</strong>
+                                        <strong class="text-primary fs-5">$<%= order.totalAmount.toFixed(2) %></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <a href="/menu" class="btn btn-yellow me-2">
+                                <i class="fas fa-utensils"></i> Order Again
+                            </a>
+                            <a href="/my-orders" class="btn btn-yellow">
+                                <i class="fas fa-list"></i> All Orders
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border: none;
+    border-radius: 15px;
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+    border-bottom: none;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.9rem;
+    padding: 0.6em 1em;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.btn-yellow {
+    background-color: #FFD700;
+    border: none;
+    color: #000;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-yellow:hover {
+    background-color: #FFC107;
+    color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+    
+    .btn {
+        margin-bottom: 0.5rem;
+    }
+}
+</style> 

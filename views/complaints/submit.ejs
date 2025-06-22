@@ -1,0 +1,107 @@
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Submit a Complaint</h3>
+                </div>
+                <div class="card-body">
+                    <% if (error_msg && error_msg.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <%= error_msg %>
+                        </div>
+                    <% } %>
+
+                    <% if (!userOrders || userOrders.length === 0) { %>
+                        <div class="alert alert-warning">
+                            <h5>No Orders Found</h5>
+                            <p>You need to have placed at least one order before you can submit a complaint.</p>
+                            <a href="/menu" class="btn btn-primary">Browse Menu</a>
+                        </div>
+                    <% } else { %>
+                        <form action="/complaints/submit" method="POST">
+                            <div class="mb-3">
+                                <label for="orderId" class="form-label">Select Order *</label>
+                                <select class="form-select" id="orderId" name="orderId" required>
+                                    <option value="">Choose an order...</option>
+                                    <% userOrders.forEach(order => { %>
+                                        <option value="<%= order._id %>">
+                                            Order #<%= order._id ? order._id.toString().slice(-6) : 'Unknown' %> - 
+                                            $<%= order.totalAmount ? order.totalAmount.toFixed(2) : '0.00' %> - 
+                                            <%= order.status ? order.status.charAt(0).toUpperCase() + order.status.slice(1) : 'Unknown' %> - 
+                                            <%= order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'Unknown Date' %>
+                                        </option>
+                                    <% }); %>
+                                </select>
+                                <div class="form-text">Select the order you want to file a complaint about.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Complaint Message *</label>
+                                <textarea class="form-control" id="message" name="message" rows="6" 
+                                          placeholder="Please describe your complaint in detail (minimum 10 characters)..." 
+                                          required minlength="10" maxlength="1000"></textarea>
+                                <div class="form-text">
+                                    <span id="charCount">0</span>/1000 characters (minimum 10 required)
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a href="/contact-us" class="btn btn-secondary me-md-2">Cancel</a>
+                                <button type="submit" class="btn btn-primary">Submit Complaint</button>
+                            </div>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const messageElement = document.getElementById('message');
+    if (messageElement) {
+        messageElement.addEventListener('input', function() {
+            const charCount = this.value.length;
+            const charCountElement = document.getElementById('charCount');
+            if (charCountElement) {
+                charCountElement.textContent = charCount;
+            }
+            
+            if (charCount < 10) {
+                this.classList.add('is-invalid');
+            } else {
+                this.classList.remove('is-invalid');
+            }
+        });
+    }
+});
+</script>
+
+<style>
+.card {
+    border: none;
+    border-radius: 15px;
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24) !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25);
+}
+
+.btn-primary {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.btn-primary:hover {
+    background-color: #ee5a24;
+    border-color: #ee5a24;
+}
+</style> 

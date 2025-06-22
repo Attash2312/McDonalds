@@ -1,0 +1,124 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-4">My Orders</h1>
+            
+            <% if (orders && orders.length > 0) { %>
+                <div class="row">
+                    <% orders.forEach(order => { %>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="card-title mb-0">
+                                        Order #<%= order._id.toString().slice(-8) %>
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <strong>Date:</strong><br>
+                                            <small class="text-muted">
+                                                <%= new Date(order.createdAt).toLocaleDateString() %>
+                                            </small>
+                                        </div>
+                                        <div class="col-6">
+                                            <strong>Status:</strong><br>
+                                            <span class="badge <%= order.status === 'completed' ? 'bg-success' : 
+                                                               order.status === 'pending' ? 'bg-warning' : 
+                                                               order.status === 'cancelled' ? 'bg-danger' : 'bg-secondary' %>">
+                                                <%= order.status.charAt(0).toUpperCase() + order.status.slice(1) %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <strong>Items:</strong>
+                                        <ul class="list-unstyled mt-2">
+                                            <% order.items.forEach(item => { %>
+                                                <li class="d-flex justify-content-between">
+                                                    <span><%= item.product ? item.product.name : item.title %></span>
+                                                    <span class="text-muted">x<%= item.quantity %></span>
+                                                </li>
+                                            <% }) %>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>Total:</strong><br>
+                                            <span class="text-primary fs-5">$<%= order.totalAmount.toFixed(2) %></span>
+                                        </div>
+                                        <a href="/my-orders/<%= order._id %>" class="btn btn-yellow btn-sm">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="text-center py-5">
+                    <div class="mb-4">
+                        <i class="fas fa-shopping-bag fa-4x text-muted"></i>
+                    </div>
+                    <h3 class="text-muted">No Orders Yet</h3>
+                    <p class="text-muted">You haven't placed any orders yet.</p>
+                    <a href="/menu" class="btn btn-yellow">Browse Menu</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    transition: transform 0.2s ease-in-out;
+    border: none;
+    border-radius: 15px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+    border-bottom: none;
+}
+
+.badge {
+    font-size: 0.8rem;
+    padding: 0.5em 0.8em;
+}
+
+.list-unstyled li {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.list-unstyled li:last-child {
+    border-bottom: none;
+}
+
+.btn-yellow {
+    background-color: #FFD700;
+    border: none;
+    color: #000;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-yellow:hover {
+    background-color: #FFC107;
+    color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .col-md-6 {
+        margin-bottom: 1rem;
+    }
+}
+</style> 

@@ -1,0 +1,22 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="card-title text-danger mb-4">
+                        <i class="fas fa-exclamation-circle"></i> Error
+                    </h1>
+                    <p class="lead"><%= message %></p>
+                    <% if (error && Object.keys(error).length > 0) { %>
+                        <div class="alert alert-danger mt-3">
+                            <pre class="mb-0"><%= JSON.stringify(error, null, 2) %></pre>
+                        </div>
+                    <% } %>
+                    <div class="mt-4">
+                        <a href="/" class="btn bg-warning w-40">Return to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

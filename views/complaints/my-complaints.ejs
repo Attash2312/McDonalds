@@ -1,0 +1,168 @@
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>My Complaints</h2>
+                <a href="/complaints/submit" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Submit New Complaint
+                </a>
+            </div>
+
+            <% if (success_msg && success_msg.length > 0) { %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <%= success_msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% } %>
+
+            <% if (complaints && complaints.length === 0) { %>
+                <div class="text-center py-5">
+                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">No complaints yet</h4>
+                    <p class="text-muted">You haven't submitted any complaints yet.</p>
+                    <a href="/complaints/submit" class="btn btn-primary">Submit Your First Complaint</a>
+                </div>
+            <% } else if (complaints && complaints.length > 0) { %>
+                <div class="row">
+                    <% complaints.forEach(complaint => { %>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span class="badge <%= getStatusBadgeClass(complaint.status) %>">
+                                        <%= complaint.status ? complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1) : 'Unknown' %>
+                                    </span>
+                                    <small class="text-muted">
+                                        <%= complaint.createdAt ? new Date(complaint.createdAt).toLocaleDateString() : 'Unknown Date' %>
+                                    </small>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">Order #<%= complaint.orderId && complaint.orderId._id ? complaint.orderId._id.toString().slice(-6) : 'Unknown' %></h6>
+                                    <p class="card-text text-muted mb-2">
+                                        Amount: $<%= complaint.orderId && complaint.orderId.totalAmount ? complaint.orderId.totalAmount.toFixed(2) : '0.00' %> | 
+                                        Status: <%= complaint.orderId && complaint.orderId.status ? complaint.orderId.status.charAt(0).toUpperCase() + complaint.orderId.status.slice(1) : 'Unknown' %>
+                                    </p>
+                                    <p class="card-text">
+                                        <%= complaint.message && complaint.message.length > 100 ? complaint.message.substring(0, 100) + '...' : (complaint.message || 'No message') %>
+                                    </p>
+                                </div>
+                                <div class="card-footer bg-transparent">
+                                    <button class="btn btn-sm btn-outline-primary" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#complaintModal<%= complaint._id %>">
+                                        View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal for complaint details -->
+                        <div class="modal fade" id="complaintModal<%= complaint._id %>" tabindex="-1">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Complaint Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <strong>Order ID:</strong> #<%= complaint.orderId && complaint.orderId._id ? complaint.orderId._id.toString().slice(-6) : 'Unknown' %>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong>Status:</strong> 
+                                                <span class="badge <%= getStatusBadgeClass(complaint.status) %>">
+                                                    <%= complaint.status ? complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1) : 'Unknown' %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <strong>Order Amount:</strong> $<%= complaint.orderId && complaint.orderId.totalAmount ? complaint.orderId.totalAmount.toFixed(2) : '0.00' %>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong>Order Status:</strong> <%= complaint.orderId && complaint.orderId.status ? complaint.orderId.status.charAt(0).toUpperCase() + complaint.orderId.status.slice(1) : 'Unknown' %>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <strong>Submitted:</strong> <%= complaint.createdAt ? new Date(complaint.createdAt).toLocaleString() : 'Unknown' %>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <strong>Last Updated:</strong> <%= complaint.updatedAt ? new Date(complaint.updatedAt).toLocaleString() : 'Unknown' %>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <strong>Complaint Message:</strong>
+                                            <div class="mt-2 p-3 bg-light rounded">
+                                                <%= complaint.message || 'No message provided' %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<script>
+// Define the function at the top
+function getStatusBadgeClass(status) {
+    if (!status) return 'bg-secondary';
+    switch(status) {
+        case 'pending': return 'bg-warning';
+        case 'in-progress': return 'bg-info';
+        case 'resolved': return 'bg-success';
+        case 'closed': return 'bg-secondary';
+        default: return 'bg-primary';
+    }
+}
+</script>
+
+<style>
+.card {
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.badge {
+    font-size: 0.75rem;
+}
+
+.btn-primary {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.btn-primary:hover {
+    background-color: #ee5a24;
+    border-color: #ee5a24;
+}
+
+.btn-outline-primary {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.btn-outline-primary:hover {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+</style> 

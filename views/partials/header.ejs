@@ -1,0 +1,343 @@
+<nav class="navbar navbar-expand-lg navbar-custom navbar-pc">
+    <div class="container-fluid">
+      <!-- Logo on the left -->
+      <a class="navbar-brand" href="/">
+        <img src="/images/McDonalds_Logo.png" alt="Logo" height="100"> <!-- Replace with your logo -->
+      </a>
+
+      <!-- Navbar content divided into two rows -->
+      <div class="d-flex flex-column ms-3 w-100 fw-medium fs-2 grid-gap-1">
+        <!-- Upper row -->
+        <div class="d-flex w-100 upper-row">
+          <!-- Left side: 2 links -->
+          <div class="left-links grid-gap-1">
+            <li class="nav-item">
+              <a class="nav-link" href="/cart">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+                  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                </svg>
+                <span class="ms-2">Cart</span>
+              </a>
+            </li>
+            <% if (locals.user) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/my-orders">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                </svg>
+                <span class="ms-2">My Orders</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/complaints/my-complaints">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+                  <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                  <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+                </svg>
+                <span class="ms-2">My Complaints</span>
+              </a>
+            </li>
+            <% if (locals.user && locals.user.isAdmin) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/products">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                  <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159z"/>
+                </svg>
+                <span class="ms-2">Admin</span>
+              </a>
+            </li>
+            <% } %>
+            <% } %>
+            <li class="nav-item">
+              <a class="nav-link" href="/contact-us">Contact Us</a>
+            </li>
+          </div>
+          <!-- Right side: 3 links -->
+          <div class="right-links">
+            <li class="nav-item">
+              <a class="nav-link" href="/search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>Search
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/locate-me">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                </svg>Locate Me
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link deliverybtn" href="<%= locals.user ? '/auth/logout' : '/auth/login' %>">
+                <%= locals.user ? 'Logout' : 'Login / Sign Up' %>
+              </a>
+            </li>
+          </div>
+        </div>
+
+        <!-- Lower row: 6 links -->
+        <div class="lower-row grid-gap-1">
+          <!-- Menu Dropdown -->
+          <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/menu" id="navbarMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Menu 
+              <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+              </svg>
+            </a>
+            
+            <!-- Mega Menu Content -->
+            <div class="navbar-megamenu">
+              <div class="container">
+                 <div class="row row-cols-1 row-cols-md-3 g-4">
+                <!-- Item 1 -->
+                <div class="col">
+                  <div class="d-flex align-items-center megamenu-item">
+                    <img src="/images/mega-menu/beef-img.jpg" class="megamenu-img" alt="Beef Burgers">
+                    <a href="/menu#beef" class="ms-3">Beef Burgers</a>
+                  </div>
+                </div>
+                
+                <!-- Item 2 -->
+                <div class="col">
+                  <div class="d-flex align-items-center megamenu-item">
+                    <img src="/images/mega-menu/chicken-and-fish.jpg" class="megamenu-img" alt="Chicken & Fish">
+                    <a href="/menu#chicken-&-fish" class="ms-3">Chicken & Fish</a>
+                  </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="col">
+                  <div class="d-flex align-items-center megamenu-item">
+                    <img src="/images/mega-menu/breakfast-pk-new-.jpg" class="megamenu-img" alt="Breakfast">
+                    <a href="/menu#breakfast" class="ms-3">Breakfast</a>
+                  </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="col">
+                  <div class="d-flex align-items-center megamenu-item">
+                    <img src="/images/mega-menu/fries-and-sides.jpg" class="megamenu-img" alt="Fries & Sides">
+                    <a href="/menu#fries-&-sides" class="ms-3">Fries & Sides</a>
+                  </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="col">
+                  <div class="d-flex align-items-center megamenu-item">
+                    <img src="/images/mega-menu/happy-meals-pk-new.jpg" class="megamenu-img" alt="Happy Meals">
+                    <a href="/menu#happy-meal" class="ms-3">Happy Meals</a>
+                  </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="col">
+                  <div class="d-flex align-items-center megamenu-item">
+                    <img src="/images/mega-menu/beverages-pk-new.jpg" class="megamenu-img" alt="Beverages">
+                    <a href="/menu#beverages" class="ms-3">Beverages</a>
+                  </div>
+                </div>
+
+                <!-- Item 7 -->
+                <div class="col">
+                  <div class="d-flex align-items-center megamenu-item">
+                    <img src="/images/mega-menu/desserts-pk-new.jpg" class="megamenu-img" alt="Desserts">
+                    <a href="/menu#desserts" class="ms-3">Desserts</a>
+                  </div>
+                </div>
+
+                <!-- Item 8 -->
+                <div class="col">
+                  <div class="d-flex align-items-center megamenu-item">
+                    <img src="/images/mega-menu/McCafe-pk-new.jpg" class="megamenu-img" alt="McCafé">
+                    <a href="/menu#mccafé" class="ms-3">McCafé</a>
+                  </div>
+                </div>
+
+                <!-- Item 9 -->
+                <div class="col">
+                  <div class="d-flex align-items-center megamenu-item">
+                    <img src="/images/mega-menu/extra-value-meals-pk-new.jpg" class="megamenu-img" alt="Extra Value Meals">
+                    <a href="/menu#value-meals" class="ms-3">Extra Value Meals</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- View All Button -->
+              <div class="text-center mt-4">
+                <a href="/menu" class="btn btn-outline-dark">View Full Menu</a>
+              </div>
+              </div>
+            </div>
+          </div>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/about-our-food">About Our Food</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/your-right-to-know">Your Right To Know</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/our-app">Our App</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/family">Family</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/trending-now">Trending Now</a>
+          </li>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="navbar-mobile">
+    <div class="container-fluid">
+      <!-- Logo on the left -->
+      <a class="navbar-brand" href="/">
+        <img src="/images/McDonalds_Logo.png" alt="Logo" height="80"> <!-- Replace with your logo -->
+      </a>
+      <a href=""><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-list" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+      </svg></a>
+      </div>
+      <div class="deliverybtn">
+        <a class="nav-link deliverybtn" href="<%= locals.user ? '/auth/logout' : '/auth/login' %>">
+          <%= locals.user ? 'Logout' : 'Login / Sign Up' %>
+        </a>
+      </div>
+  </nav>
+
+<style>
+.navbar-custom .nav-link {
+    color: black;
+    text-decoration: none;
+    position: relative;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-custom .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #DA291C;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+/* Remove underline from dropdown toggle */
+.navbar-custom .dropdown-toggle::after {
+    display: none;
+}
+
+/* Only show underline for non-dropdown links */
+.navbar-custom .nav-link:not(.dropdown-toggle):hover::after,
+.navbar-custom .nav-link:not(.dropdown-toggle).active::after {
+    width: 100%;
+}
+
+.navbar-custom .nav-link.active {
+    color: #DA291C;
+}
+
+/* Add underline for dropdown when active */
+.navbar-custom .dropdown-toggle.active::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #DA291C;
+    transform: translateX(-50%);
+}
+
+/* Fix list styling */
+.navbar-custom .nav-item {
+    list-style: none;
+    display: inline-block;
+}
+
+.left-links, .right-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.upper-row {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lower-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Mobile navbar fixes */
+.navbar-mobile {
+    display: none;
+}
+
+@media (max-width: 991px) {
+    .navbar-pc {
+        display: none;
+    }
+    .navbar-mobile {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+    }
+}
+
+/* Remove hover effect from View Full Menu button */
+.btn-outline-dark {
+    transition: none;
+}
+
+.btn-outline-dark:hover {
+    background-color: transparent;
+    color: #212529;
+    border-color: #212529;
+}
+
+/* Dropdown arrow styles */
+.dropdown-arrow {
+    display: inline-block;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+}
+
+.dropdown-toggle:hover .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* Remove default dropdown arrow */
+.dropdown-toggle::after {
+    display: none;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get current path
+    const currentPath = window.location.pathname;
+    
+    // Get all nav links
+    const navLinks = document.querySelectorAll('.navbar-custom .nav-link');
+    
+    // Add active class to matching link
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        }
+    });
+});
+</script>

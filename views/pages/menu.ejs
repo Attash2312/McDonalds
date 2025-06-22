@@ -1,0 +1,178 @@
+<div class="container">
+    <h1 class="text-center mb-4">Our Menu</h1>
+    
+    <!-- Debug Information -->
+    <% if (typeof categories === 'undefined' || !categories) { %>
+        <div class="alert alert-danger">
+            No categories found. Please check the database connection.
+        </div>
+    <% } else { %>
+        <!-- Menu Categories Navigation -->
+        <div class="menu-categories mb-4">
+            <div class="row">
+                <div class="col-12">
+                    <ul class="nav nav-pills justify-content-center flex-wrap">
+                        <% categories.forEach((category, index) => { %>
+                            <li class="nav-item">
+                                <a class="nav-link <%= index === 0 ? 'active' : '' %>" href="#<%= categoryIds[category] %>">
+                                    <%= category %>
+                                </a>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Sections -->
+        <% categories.forEach((category, index) => { %>
+            <section id="<%= categoryIds[category] %>" class="menu-section mb-5">
+                <h2 class="section-title mb-4"><%= category %></h2>
+                <div class="row">
+                    <% if (!menuByCategory[category] || menuByCategory[category].length === 0) { %>
+                        <div class="col-12">
+                            <p class="text-center">No items available in this category.</p>
+                        </div>
+                    <% } else { %>
+                        <% menuByCategory[category].forEach(item => { %>
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <img src="<%= item.image %>" class="card-img-top" alt="<%= item.name %>">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= item.name %></h5>
+                                        <p class="card-text"><%= item.description %></p>
+                                        <p class="price">$<%= item.price.toFixed(2) %></p>
+                                        <form action="/cart/add/<%= item._id %>" method="POST" class="d-flex align-items-center">
+                                            <div class="input-group me-2" style="width: 120px;">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="decrementQuantity(this)">-</button>
+                                                <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm text-center" style="width: 50px;">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="incrementQuantity(this)">+</button>
+                                            </div>
+                                            <button type="submit" class="btn bg-warning w-40">Add to Cart</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+            </section>
+        <% }); %>
+    <% } %>
+
+    <!-- Important Note Section -->
+    <section class="important-note mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Important Note</h3>
+                <p class="card-text">
+                    At McDonald's, we take great care to serve quality, great-tasting menu items to our customers each and every time they visit our restaurants. We understand that each of our customers has individual needs and considerations when choosing a place to eat or drink outside their home, especially those customers with food allergies.
+                </p>
+                <p class="card-text">
+                    As part of our commitment to you, we provide the most current ingredient information available from our food suppliers for the eight most common allergens, so that our guests with food allergies can make informed food selections.
+                </p>
+                <p class="card-text">
+                    For more detailed information about our ingredients and nutritional values, please visit our <a href="/your-right-to-know">Your Right to Know</a> page.
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+.menu-categories {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.nav-pills .nav-link {
+    color: #333;
+    margin: 0.25rem;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.section-title {
+    color: #333;
+    border-bottom: 2px solid #ffc107;
+    padding-bottom: 0.5rem;
+}
+
+.card {
+    transition: transform 0.2s;
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.price {
+    font-weight: bold;
+    color: #28a745;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.important-note {
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+}
+
+.important-note .card {
+    border: none;
+    background-color: transparent;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if there's a hash in the URL
+    const hash = window.location.hash;
+    if (hash) {
+        // Find the corresponding nav link and make it active
+        const navLink = document.querySelector(`.nav-link[href="${hash}"]`);
+        if (navLink) {
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            navLink.classList.add('active');
+        }
+    }
+
+    // Smooth scrolling for menu categories
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // Update active state
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update URL hash without scrolling
+                history.pushState(null, null, targetId);
+            }
+        });
+    });
+});
+
+function incrementQuantity(button) {
+    const input = button.parentElement.querySelector('input');
+    input.value = parseInt(input.value) + 1;
+}
+
+function decrementQuantity(button) {
+    const input = button.parentElement.querySelector('input');
+    const currentValue = parseInt(input.value);
+    if (currentValue > 1) {
+        input.value = currentValue - 1;
+    }
+}
+</script> 

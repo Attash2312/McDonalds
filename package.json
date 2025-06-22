@@ -1,27 +1,29 @@
 {
-  "name": "mcdonalds",
+  "name": "assignment3",
   "version": "1.0.0",
-  "description": "McDonald's pk website clone for semester project (MERN stack)",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Attash2312/McDonalds.git"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Attash2312/McDonalds/issues"
-  },
-  "homepage": "https://github.com/Attash2312/McDonalds#readme",
-  "devDependencies": {
-    "nodemon": "^3.1.10"
-  },
   "dependencies": {
-    "body-parser": "^2.2.0",
-    "ejs": "^3.1.10"
-  }
+    "bcryptjs": "^3.0.2",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.16.0",
+    "nodemon": "^3.1.10",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {},
+  "description": "A full-stack web application for McDonald's with user authentication, menu management, cart functionality, order processing, and admin panel."
 }

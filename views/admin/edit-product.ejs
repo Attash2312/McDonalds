@@ -1,0 +1,64 @@
+<%- contentFor('body') %>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>Edit Product</h1>
+                <a href="/admin/products" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Products
+                </a>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <form action="/admin/products/edit/<%= product._id %>" method="POST" class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Name:</label>
+                            <input type="text" name="name" value="<%= product.name %>" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Price:</label>
+                            <input type="number" name="price" step="0.01" value="<%= product.price %>" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Description:</label>
+                            <textarea name="description" class="form-control" rows="3" required><%= product.description %></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Image URL:</label>
+                            <input type="text" name="image" value="<%= product.image %>" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Category:</label>
+                            <select name="category" class="form-select" required>
+                                <option value="">Select Category</option>
+                                <option <%= product.category === 'Breakfast' ? 'selected' : '' %>>Breakfast</option>
+                                <option <%= product.category === 'Chicken & Fish' ? 'selected' : '' %>>Chicken & Fish</option>
+                                <option <%= product.category === 'Crispy Chicken' ? 'selected' : '' %>>Crispy Chicken</option>
+                                <option <%= product.category === 'Wraps' ? 'selected' : '' %>>Wraps</option>
+                                <option <%= product.category === 'Happy Meal' ? 'selected' : '' %>>Happy Meal</option>
+                                <option <%= product.category === 'Extra Value Meals' ? 'selected' : '' %>>Extra Value Meals</option>
+                                <option <%= product.category === 'Value Meals' ? 'selected' : '' %>>Value Meals</option>
+                                <option <%= product.category === 'Desserts' ? 'selected' : '' %>>Desserts</option>
+                                <option <%= product.category === 'Beverages' ? 'selected' : '' %>>Beverages</option>
+                                <option <%= product.category === 'McCafé' ? 'selected' : '' %>>McCafé</option>
+                                <option <%= product.category === 'Beef' ? 'selected' : '' %>>Beef</option>
+                                <option <%= product.category === 'Fries & Sides' ? 'selected' : '' %>>Fries & Sides</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input type="checkbox" name="isAvailable" class="form-check-input" <%= product.isAvailable ? 'checked' : '' %>>
+                                <label class="form-check-label">Available</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Update Product</button>
+                            <a href="/admin/products" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
