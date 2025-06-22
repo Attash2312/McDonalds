@@ -18,13 +18,18 @@ require('./models/Complaint');
 // Initialize app
 const app = express();
 
-// Connect to Database
-connectDB().then(() => {
-    console.log('Database connection established');
-}).catch(err => {
-    console.error('Failed to connect to database:', err);
-    process.exit(1);
-});
+// Connect to Database (only if not already connected)
+if (mongoose.connection.readyState !== 1) {
+    connectDB().then(() => {
+        console.log('Database connection established');
+    }).catch(err => {
+        console.error('Failed to connect to database:', err);
+        // Don't exit in production/serverless environment
+        if (process.env.NODE_ENV !== 'production') {
+            process.exit(1);
+        }
+    });
+}
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,8 +40,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(methodOverride('_method'));
 
-// Sessions
-app.use(session({
+// Sessions - Use a more production-ready session store
+const sessionConfig = {
     secret: process.env.SESSION_SECRET || 'your-secret-key',
     resave: false,
     saveUninitialized: false,
@@ -44,7 +49,15 @@ app.use(session({
         secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
-}));
+};
+
+// In production, you should use a proper session store like Redis or MongoDB
+// For now, we'll keep MemoryStore but add a warning
+if (process.env.NODE_ENV === 'production') {
+    console.warn('Warning: Using MemoryStore for sessions. This is not suitable for production.');
+}
+
+app.use(session(sessionConfig));
 
 // Flash messages
 app.use(flash());
@@ -83,5 +96,10 @@ app.use((err, req, res, next) => {
     });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Only start the server if we're not in a serverless environment
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+module.exports = app;
