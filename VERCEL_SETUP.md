@@ -74,3 +74,20 @@ After setup, test these features:
 - Admin panel access
 
 If any of these fail, check the Vercel function logs for specific error messages. 
+
+## Additional Notes
+
+- If you encounter view lookup errors, ensure that the views directory is explicitly set in your `server.js`:
+  ```js
+  app.set('views', path.join(__dirname, 'views'));
+  ```
+
+- If you encounter MongoDB connection errors, ensure that the MongoDB connection options are updated in your `config/db.js`:
+  ```js
+  const conn = await mongoose.connect(mongoURI, {
+    serverSelectionTimeoutMS: 10000,
+    socketTimeoutMS: 45000,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  ``` 
