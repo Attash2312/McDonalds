@@ -79,6 +79,7 @@ If any of these fail, check the Vercel function logs for specific error messages
 
 - If you encounter view lookup errors, ensure that the views directory is explicitly set in your `server.js`:
   ```js
+  const path = require('path');
   app.set('views', path.join(__dirname, 'views'));
   ```
 
