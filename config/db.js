@@ -15,7 +15,6 @@ const connectDB = async () => {
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
       bufferCommands: false,
-      bufferMaxEntries: 0,
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

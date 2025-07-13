@@ -29,19 +29,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(methodOverride('_method'));
 
-// Connect to Database (only if not already connected)
-if (mongoose.connection.readyState !== 1) {
-    connectDB().then(() => {
-        console.log('Database connection established');
-    }).catch(err => {
-        console.error('Failed to connect to database:', err);
-        // Don't exit in production/serverless environment
-        if (process.env.NODE_ENV !== 'production') {
-            process.exit(1);
-        }
-    });
-}
-
 // Sessions - Use MongoDB for session storage with fallback
 let sessionConfig = {
     secret: process.env.SESSION_SECRET || 'your-secret-key',
@@ -68,6 +55,25 @@ try {
 } catch (error) {
     console.warn('Failed to create MongoDB session store, using MemoryStore:', error.message);
 }
+
+// Connect to Database asynchronously (better for serverless)
+const initializeDatabase = async () => {
+    try {
+        if (mongoose.connection.readyState !== 1) {
+            await connectDB();
+            console.log('Database connection established');
+        }
+    } catch (err) {
+        console.error('Failed to connect to database:', err);
+        // Don't exit in production/serverless environment
+        if (process.env.NODE_ENV !== 'production') {
+            process.exit(1);
+        }
+    }
+};
+
+// Initialize database connection
+initializeDatabase();
 
 app.use(session(sessionConfig));
 

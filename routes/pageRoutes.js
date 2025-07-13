@@ -10,7 +10,10 @@ router.get('/health', (req, res) => {
         status: 'OK',
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
-        environment: process.env.NODE_ENV || 'development'
+        environment: process.env.NODE_ENV || 'development',
+        databaseState: mongoose.connection.readyState,
+        databaseConnected: mongoose.connection.readyState === 1,
+        mongodbUri: process.env.MONGODB_URI ? 'Configured' : 'Not configured'
     });
 });
 
