@@ -95,6 +95,15 @@ app.use((req, res, next) => {
     next();
 });
 
+// Simple test route directly in server.js
+app.get('/server-test', (req, res) => {
+    res.json({
+        message: 'Server.js route working',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development'
+    });
+});
+
 // Routes
 app.use('/', require('./routes/pageRoutes'));
 app.use('/auth', require('./routes/authRoutes'));

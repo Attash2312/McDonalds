@@ -4,6 +4,20 @@ const { isAuthenticated } = require('../middleware/auth');
 const MenuItem = require('../models/Menu');
 const mongoose = require('mongoose');
 
+// Super simple test route - no dependencies
+router.get('/ping', (req, res) => {
+    res.json({ message: 'pong', time: new Date().toISOString() });
+});
+
+// Simple debug route - should always work
+router.get('/debug', (req, res) => {
+    res.json({
+        message: 'Debug route working',
+        timestamp: new Date().toISOString(),
+        routes: 'pageRoutes loaded successfully'
+    });
+});
+
 // Health check route
 router.get('/health', (req, res) => {
     res.json({
