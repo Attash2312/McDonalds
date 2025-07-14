@@ -48,6 +48,14 @@ router.get('/test-user/:email', async (req, res) => {
     }
 });
 
+// Simple auth test route
+router.get('/test', (req, res) => {
+    res.json({
+        message: 'Auth routes are working',
+        timestamp: new Date().toISOString()
+    });
+});
+
 // Login Page
 router.get('/login', isNotAuthenticated, (req, res) => {
     res.render('auth/login', {
