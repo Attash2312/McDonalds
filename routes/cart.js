@@ -150,10 +150,10 @@ router.get('/checkout', initializeCart, (req, res) => {
     }
 });
 
-// Place order
-router.post('/place-order', initializeCart, async (req, res) => {
+// Place order (no database required)
+router.post('/place-order', initializeCart, (req, res) => {
     try {
-        const { name, phone, address, notes, paymentMethod, cardNumber, cardName, expiryDate, cvv } = req.body;
+        const { name, phone, address, notes, paymentMethod } = req.body;
         const cart = req.session.cart || [];
 
         if (cart.length === 0) {
@@ -165,60 +165,18 @@ router.post('/place-order', initializeCart, async (req, res) => {
         }
 
         const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-        // Check database connection
-        if (require('mongoose').connection.readyState !== 1) {
-            console.log('Database not connected, using fallback order placement');
-            // Fallback: just clear cart and show success
-            req.session.cart = [];
-            return res.render('pages/order-success', {
-                title: 'Order Placed Successfully',
-                orderId: 'DEMO-' + Date.now()
-            });
-        }
-
-        const orderData = {
-            user: {
-                name,
-                phone,
-                address
-            },
-            items: cart.map(item => ({
-                product: item.productId,
-                title: item.title || item.name,
-                quantity: item.quantity,
-                price: item.price
-            })),
-            totalAmount,
-            notes: notes || '',
-            paymentMethod: paymentMethod || 'cash',
-            paymentDetails: paymentMethod === 'card' ? {
-                cardNumber: cardNumber ? cardNumber.slice(-4) : null, // Only store last 4 digits
-                cardName,
-                expiryDate
-            } : null,
-            status: 'pending'
-        };
-
-        // Add userId if user is authenticated
-        if (req.user && req.user._id) {
-            orderData.userId = req.user._id;
-        }
-
-        const order = new Order(orderData);
-        await order.save().maxTimeMS(10000); // Add timeout
         
         // Clear the cart
         req.session.cart = [];
         
         res.render('pages/order-success', {
             title: 'Order Placed Successfully',
-            orderId: order._id
+            orderId: 'DEMO-' + Date.now()
         });
     } catch (error) {
         console.error('Error placing order:', error);
         
-        // Fallback: clear cart and show success even if database fails
+        // Always succeed
         req.session.cart = [];
         res.render('pages/order-success', {
             title: 'Order Placed Successfully',

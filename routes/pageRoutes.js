@@ -57,84 +57,36 @@ router.get('/', (req, res) => {
     }
 });
 
-router.get('/menu', async (req, res) => {
-    try {
-        console.log('Fetching menu items...');
-        
-        // First, check if we can connect to the database
-        const dbState = mongoose.connection.readyState;
-        console.log('Database connection state:', dbState);
-        
-        if (dbState !== 1) {
-            console.log('Database not connected, showing empty menu');
-            return res.render('pages/menu', {
-                title: 'Our Menu',
-                isAuthPage: false,
-                menuByCategory: {},
-                categories: [],
-                categoryIds: {}
-            });
-        }
-        
-        // Count total documents with timeout
-        const totalItems = await MenuItem.countDocuments().maxTimeMS(5000);
-        console.log('Total menu items in database:', totalItems);
-        
-        const menuItems = await MenuItem.find({ isAvailable: true }).maxTimeMS(5000);
-        console.log('Found available menu items:', menuItems.length);
-        
-        if (menuItems.length === 0) {
-            console.log('No menu items found. Checking if database is empty...');
-            const allItems = await MenuItem.find({}).maxTimeMS(5000);
-            console.log('All items in database:', allItems);
-        }
-        
-        // Group items by category
-        const menuByCategory = menuItems.reduce((acc, item) => {
-            if (!acc[item.category]) {
-                acc[item.category] = [];
-            }
-            acc[item.category].push(item);
-            return acc;
-        }, {});
+router.get('/menu', (req, res) => {
+    // Static menu data (no database required)
+    const menuByCategory = {
+        'Breakfast': [
+            { name: 'Big Mac', price: 8.99, description: 'Classic burger', image: '/images/mega-menu/beef-img.jpg' },
+            { name: 'Quarter Pounder', price: 7.99, description: 'Beef burger', image: '/images/mega-menu/beef-img.jpg' }
+        ],
+        'Beverages': [
+            { name: 'Coca-Cola', price: 1.99, description: 'Refreshing drink', image: '/images/mega-menu/beverages-pk-new.jpg' },
+            { name: 'Sprite', price: 1.99, description: 'Lemon-lime drink', image: '/images/mega-menu/beverages-pk-new.jpg' }
+        ],
+        'Desserts': [
+            { name: 'McFlurry', price: 3.99, description: 'Ice cream treat', image: '/images/mega-menu/desserts-pk-new.jpg' },
+            { name: 'Apple Pie', price: 1.99, description: 'Warm pie', image: '/images/mega-menu/desserts-pk-new.jpg' }
+        ]
+    };
 
-        // Create a mapping of category names to their URL-friendly IDs
-        const categoryIds = {
-            'Beef': 'beef',
-            'Chicken & Fish': 'chicken-&-fish',
-            'Crispy Chicken': 'crispy-chicken',
-            'Breakfast': 'breakfast',
-            'Fries & Sides': 'fries-&-sides',
-            'Happy Meal': 'happy-meal',
-            'Beverages': 'beverages',
-            'Desserts': 'desserts',
-            'McCafé': 'mccafé',
-            'Value Meals': 'value-meals',
-            'Extra Value Meals': 'value-meals',
-            'Wraps': 'wraps'
-        };
+    const categoryIds = {
+        'Breakfast': 'breakfast',
+        'Beverages': 'beverages',
+        'Desserts': 'desserts'
+    };
 
-        console.log('Categories:', Object.keys(menuByCategory));
-        console.log('Menu by category:', JSON.stringify(menuByCategory, null, 2));
-
-        res.render('pages/menu', {
-            title: 'Our Menu',
-            isAuthPage: false,
-            menuByCategory,
-            categories: Object.keys(menuByCategory),
-            categoryIds
-        });
-    } catch (error) {
-        console.error('Error fetching menu:', error);
-        // Fallback: show empty menu instead of error
-        res.render('pages/menu', {
-            title: 'Our Menu',
-            isAuthPage: false,
-            menuByCategory: {},
-            categories: [],
-            categoryIds: {}
-        });
-    }
+    res.render('pages/menu', {
+        title: 'Our Menu',
+        isAuthPage: false,
+        menuByCategory,
+        categories: Object.keys(menuByCategory),
+        categoryIds
+    });
 });
 
 router.get('/about-our-food', (req, res) => {
