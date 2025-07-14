@@ -12,37 +12,33 @@ const initializeCart = (req, res, next) => {
     next();
 };
 
-// Add to cart
-router.post('/add/:productId', initializeCart, async (req, res) => {
+// Simple cart test route
+router.get('/test', (req, res) => {
+    res.json({
+        message: 'Cart routes working',
+        sessionCart: req.session.cart || [],
+        timestamp: new Date().toISOString()
+    });
+});
+
+// Add to cart (temporarily without database)
+router.post('/add/:productId', initializeCart, (req, res) => {
     try {
         const productId = req.params.productId;
         const quantity = parseInt(req.body.quantity) || 1;
         
-        // Check database connection
-        if (require('mongoose').connection.readyState !== 1) {
-            console.log('Database not connected, attempting to reconnect...');
-            await require('../config/db')();
-        }
-        
-        const product = await MenuItem.findById(productId).maxTimeMS(5000);
-        if (!product) {
-            return res.status(404).render('error', {
-                title: 'Error',
-                message: 'Product not found',
-                error: {}
-            });
-        }
-
+        // Temporarily skip database query
         const cartItem = req.session.cart.find(item => item.productId.toString() === productId);
         
         if (cartItem) {
             cartItem.quantity += quantity;
         } else {
+            // Add with basic info
             req.session.cart.push({
-                productId: product._id,
-                name: product.name,
-                title: product.name,
-                price: product.price,
+                productId: productId,
+                name: 'Product',
+                title: 'Product',
+                price: 10.99, // Default price
                 quantity: quantity
             });
         }
@@ -50,23 +46,6 @@ router.post('/add/:productId', initializeCart, async (req, res) => {
         res.redirect('/cart');
     } catch (error) {
         console.error('Error adding to cart:', error);
-        
-        // Fallback: Add item to cart without database query
-        const cartItem = req.session.cart.find(item => item.productId.toString() === productId);
-        
-        if (cartItem) {
-            cartItem.quantity += quantity;
-        } else {
-            // Add with basic info if database fails
-            req.session.cart.push({
-                productId: productId,
-                name: 'Product',
-                title: 'Product',
-                price: 0,
-                quantity: quantity
-            });
-        }
-        
         res.redirect('/cart');
     }
 });
