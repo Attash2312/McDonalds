@@ -150,8 +150,8 @@ router.get('/family', (req, res) => {
     });
 });
 
-// Protected routes - require authentication
-router.get('/cart', isAuthenticated, (req, res) => {
+// Protected routes - require authentication (temporarily disabled)
+router.get('/cart', (req, res) => {
     const cart = req.session.cart || [];
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     
@@ -163,35 +163,35 @@ router.get('/cart', isAuthenticated, (req, res) => {
     });
 });
 
-router.get('/trending-now', isAuthenticated, (req, res) => {
+router.get('/trending-now', (req, res) => {
     res.render('pages/trending', {
         title: 'Trending Now',
         isAuthPage: false
     });
 });
 
-router.get('/contact-us', isAuthenticated, (req, res) => {
+router.get('/contact-us', (req, res) => {
     res.render('pages/contact-us', {
         title: 'Contact Us',
         isAuthPage: false
     });
 });
 
-router.get('/search', isAuthenticated, (req, res) => {
+router.get('/search', (req, res) => {
     res.render('pages/search', {
         title: 'Search',
         isAuthPage: false
     });
 });
 
-router.get('/locate-me', isAuthenticated, (req, res) => {
+router.get('/locate-me', (req, res) => {
     res.render('pages/locate-me', {
         title: 'Locate Me',
         isAuthPage: false
     });
 });
 
-router.get('/checkout', isAuthenticated, (req, res) => {
+router.get('/checkout', (req, res) => {
     const cart = req.session.cart || [];
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     
