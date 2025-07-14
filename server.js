@@ -79,6 +79,15 @@ const initializeDatabase = async () => {
 // Initialize database connection
 initializeDatabase();
 
+// Handle serverless function cleanup
+if (process.env.NODE_ENV === 'production') {
+    process.on('SIGTERM', async () => {
+        console.log('SIGTERM received, closing database connection');
+        await mongoose.connection.close();
+        process.exit(0);
+    });
+}
+
 app.use(session(sessionConfig));
 
 // Flash messages
@@ -104,7 +113,9 @@ app.get('/server-test', (req, res) => {
     res.json({
         message: 'Server.js route working',
         timestamp: new Date().toISOString(),
-        environment: process.env.NODE_ENV || 'development'
+        environment: process.env.NODE_ENV || 'development',
+        memoryUsage: process.memoryUsage(),
+        uptime: process.uptime()
     });
 });
 

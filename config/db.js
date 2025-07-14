@@ -12,11 +12,14 @@ const connectDB = async () => {
     const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mcdonalds';
     
     const conn = await mongoose.connect(mongoURI, {
-      serverSelectionTimeoutMS: 10000,
-      socketTimeoutMS: 45000,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 10000,
       bufferCommands: false,
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      maxPoolSize: 1,
+      minPoolSize: 0,
+      maxIdleTimeMS: 30000,
     });
     
     console.log(`MongoDB Connected: ${conn.connection.host}`);
