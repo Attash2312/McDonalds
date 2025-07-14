@@ -27,6 +27,27 @@ router.get('/test-connection', (req, res) => {
     });
 });
 
+// Test user lookup
+router.get('/test-user/:email', async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.params.email });
+        if (user) {
+            res.json({
+                found: true,
+                name: user.name,
+                email: user.email,
+                hasPassword: !!user.password,
+                passwordLength: user.password ? user.password.length : 0,
+                isHashed: user.password ? user.password.startsWith('$2a$') : false
+            });
+        } else {
+            res.json({ found: false });
+        }
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+});
+
 // Login Page
 router.get('/login', isNotAuthenticated, (req, res) => {
     res.render('auth/login', {
@@ -174,7 +195,7 @@ router.post('/login', (req, res, next) => {
 
     passport.authenticate('local', (err, user, info) => {
         if (err) {
-            console.error(err);
+            console.error('Passport authentication error:', err);
             req.flash('error', 'An error occurred during login. Please try again.');
             return res.render('auth/login', {
                 title: 'Login',
