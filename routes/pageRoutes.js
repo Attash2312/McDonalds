@@ -65,16 +65,27 @@ router.get('/menu', async (req, res) => {
         const dbState = mongoose.connection.readyState;
         console.log('Database connection state:', dbState);
         
-        // Count total documents
-        const totalItems = await MenuItem.countDocuments();
+        if (dbState !== 1) {
+            console.log('Database not connected, showing empty menu');
+            return res.render('pages/menu', {
+                title: 'Our Menu',
+                isAuthPage: false,
+                menuByCategory: {},
+                categories: [],
+                categoryIds: {}
+            });
+        }
+        
+        // Count total documents with timeout
+        const totalItems = await MenuItem.countDocuments().maxTimeMS(5000);
         console.log('Total menu items in database:', totalItems);
         
-        const menuItems = await MenuItem.find({ isAvailable: true });
+        const menuItems = await MenuItem.find({ isAvailable: true }).maxTimeMS(5000);
         console.log('Found available menu items:', menuItems.length);
         
         if (menuItems.length === 0) {
             console.log('No menu items found. Checking if database is empty...');
-            const allItems = await MenuItem.find({});
+            const allItems = await MenuItem.find({}).maxTimeMS(5000);
             console.log('All items in database:', allItems);
         }
         
@@ -115,9 +126,13 @@ router.get('/menu', async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching menu:', error);
-        res.status(500).render('error', {
-            message: 'Error loading menu items',
-            error: process.env.NODE_ENV === 'development' ? error : {}
+        // Fallback: show empty menu instead of error
+        res.render('pages/menu', {
+            title: 'Our Menu',
+            isAuthPage: false,
+            menuByCategory: {},
+            categories: [],
+            categoryIds: {}
         });
     }
 });
