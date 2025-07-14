@@ -129,6 +129,17 @@ app.get('/session-debug', (req, res) => {
     });
 });
 
+// Health check without database
+app.get('/health-simple', (req, res) => {
+    res.json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        memoryUsage: process.memoryUsage(),
+        databaseState: require('mongoose').connection.readyState
+    });
+});
+
 
 
 // Routes
