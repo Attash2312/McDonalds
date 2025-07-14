@@ -115,6 +115,8 @@ app.get('/session-debug', (req, res) => {
     });
 });
 
+
+
 // Routes
 app.use('/', require('./routes/pageRoutes'));
 app.use('/auth', require('./routes/authRoutes'));
