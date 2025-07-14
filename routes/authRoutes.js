@@ -154,7 +154,7 @@ router.post('/register', async (req, res) => {
         req.flash('success_msg', 'Registration successful! You can now log in.');
         res.redirect('/auth/login');
     } catch (err) {
-        console.error(err);
+        console.error('Registration error:', err);
         req.flash('error', 'Something went wrong. Please try again.');
         res.render('auth/register', {
             title: 'Register',
