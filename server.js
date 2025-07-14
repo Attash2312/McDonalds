@@ -57,6 +57,9 @@ try {
     console.warn('Failed to create MongoDB session store, using MemoryStore:', error.message);
 }
 
+// Temporarily use MemoryStore for sessions
+sessionConfig.store = undefined;
+
 // Connect to Database asynchronously (better for serverless)
 const initializeDatabase = async () => {
     try {
@@ -73,8 +76,8 @@ const initializeDatabase = async () => {
     }
 };
 
-// Initialize database connection
-initializeDatabase();
+// Initialize database connection (temporarily disabled)
+// initializeDatabase();
 
 app.use(session(sessionConfig));
 
