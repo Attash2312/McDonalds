@@ -41,9 +41,23 @@ let sessionConfig = {
     }
 };
 
-// Use MemoryStore for sessions (temporarily)
-console.log('Using MemoryStore for sessions');
-sessionConfig.store = undefined;
+// Try to use MongoDB for sessions, fallback to MemoryStore if connection fails
+try {
+    if (process.env.MONGODB_URI) {
+        sessionConfig.store = MongoStore.create({
+            mongoUrl: process.env.MONGODB_URI,
+            collectionName: 'sessions',
+            ttl: 24 * 60 * 60 // 24 hours
+        });
+        console.log('Using MongoDB for session storage');
+    } else {
+        console.warn('No MONGODB_URI provided, using MemoryStore for sessions');
+        sessionConfig.store = undefined;
+    }
+} catch (error) {
+    console.warn('Failed to create MongoDB session store, using MemoryStore:', error.message);
+    sessionConfig.store = undefined;
+}
 
 // Connect to Database asynchronously (better for serverless)
 const initializeDatabase = async () => {
