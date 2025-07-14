@@ -27,18 +27,33 @@ router.post('/add/:productId', initializeCart, (req, res) => {
         const productId = req.params.productId;
         const quantity = parseInt(req.body.quantity) || 1;
         
-        // Temporarily skip database query
+        // Static menu data mapping
+        const staticMenuItems = {
+            'breakfast-1': { name: 'Big Mac', title: 'Big Mac', price: 8.99 },
+            'breakfast-2': { name: 'Quarter Pounder', title: 'Quarter Pounder', price: 7.99 },
+            'beverages-1': { name: 'Coca-Cola', title: 'Coca-Cola', price: 1.99 },
+            'beverages-2': { name: 'Sprite', title: 'Sprite', price: 1.99 },
+            'desserts-1': { name: 'McFlurry', title: 'McFlurry', price: 3.99 },
+            'desserts-2': { name: 'Apple Pie', title: 'Apple Pie', price: 1.99 }
+        };
+        
+        const menuItem = staticMenuItems[productId];
+        if (!menuItem) {
+            console.error('Product not found:', productId);
+            return res.redirect('/menu');
+        }
+        
         const cartItem = req.session.cart.find(item => item.productId.toString() === productId);
         
         if (cartItem) {
             cartItem.quantity += quantity;
         } else {
-            // Add with basic info
+            // Add with proper info from static data
             req.session.cart.push({
                 productId: productId,
-                name: 'Product',
-                title: 'Product',
-                price: 10.99, // Default price
+                name: menuItem.name,
+                title: menuItem.title,
+                price: menuItem.price,
                 quantity: quantity
             });
         }

@@ -62,7 +62,7 @@ const initializeDatabase = async () => {
 };
 
 // Initialize database connection (temporarily disabled for stability)
-// initializeDatabase();
+initializeDatabase();
 
 // Handle serverless function cleanup
 if (process.env.NODE_ENV === 'production') {

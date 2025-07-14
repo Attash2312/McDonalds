@@ -61,16 +61,16 @@ router.get('/menu', (req, res) => {
     // Static menu data (no database required)
     const menuByCategory = {
         'Breakfast': [
-            { name: 'Big Mac', price: 8.99, description: 'Classic burger', image: '/images/mega-menu/beef-img.jpg' },
-            { name: 'Quarter Pounder', price: 7.99, description: 'Beef burger', image: '/images/mega-menu/beef-img.jpg' }
+            { _id: 'breakfast-1', name: 'Big Mac', price: 8.99, description: 'Classic burger', image: '/images/mega-menu/beef-img.jpg' },
+            { _id: 'breakfast-2', name: 'Quarter Pounder', price: 7.99, description: 'Beef burger', image: '/images/mega-menu/beef-img.jpg' }
         ],
         'Beverages': [
-            { name: 'Coca-Cola', price: 1.99, description: 'Refreshing drink', image: '/images/mega-menu/beverages-pk-new.jpg' },
-            { name: 'Sprite', price: 1.99, description: 'Lemon-lime drink', image: '/images/mega-menu/beverages-pk-new.jpg' }
+            { _id: 'beverages-1', name: 'Coca-Cola', price: 1.99, description: 'Refreshing drink', image: '/images/mega-menu/beverages-pk-new.jpg' },
+            { _id: 'beverages-2', name: 'Sprite', price: 1.99, description: 'Lemon-lime drink', image: '/images/mega-menu/beverages-pk-new.jpg' }
         ],
         'Desserts': [
-            { name: 'McFlurry', price: 3.99, description: 'Ice cream treat', image: '/images/mega-menu/desserts-pk-new.jpg' },
-            { name: 'Apple Pie', price: 1.99, description: 'Warm pie', image: '/images/mega-menu/desserts-pk-new.jpg' }
+            { _id: 'desserts-1', name: 'McFlurry', price: 3.99, description: 'Ice cream treat', image: '/images/mega-menu/desserts-pk-new.jpg' },
+            { _id: 'desserts-2', name: 'Apple Pie', price: 1.99, description: 'Warm pie', image: '/images/mega-menu/desserts-pk-new.jpg' }
         ]
     };
 
