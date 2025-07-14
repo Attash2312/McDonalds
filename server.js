@@ -32,10 +32,11 @@ app.use(methodOverride('_method'));
 // Sessions - Use MongoDB for session storage with fallback
 let sessionConfig = {
     secret: process.env.SESSION_SECRET || 'your-secret-key',
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
-        secure: process.env.NODE_ENV === 'production',
+        secure: false, // Set to false for Vercel
+        httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
 };
@@ -101,6 +102,16 @@ app.get('/server-test', (req, res) => {
         message: 'Server.js route working',
         timestamp: new Date().toISOString(),
         environment: process.env.NODE_ENV || 'development'
+    });
+});
+
+// Session debug route
+app.get('/session-debug', (req, res) => {
+    res.json({
+        sessionID: req.sessionID,
+        user: req.user,
+        isAuthenticated: req.isAuthenticated(),
+        session: req.session
     });
 });
 
