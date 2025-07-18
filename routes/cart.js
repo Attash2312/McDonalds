@@ -21,26 +21,19 @@ router.get('/test', (req, res) => {
     });
 });
 
-// Add to cart (temporarily without database)
-router.post('/add/:productId', initializeCart, (req, res) => {
+// Add to cart
+router.post('/add/:productId', initializeCart, async (req, res) => {
     try {
         const productId = req.params.productId;
         const quantity = parseInt(req.body.quantity) || 1;
         
-        // Static menu data mapping
-        const staticMenuItems = {
-            'breakfast-1': { name: 'Big Mac', title: 'Big Mac', price: 8.99 },
-            'breakfast-2': { name: 'Quarter Pounder', title: 'Quarter Pounder', price: 7.99 },
-            'beverages-1': { name: 'Coca-Cola', title: 'Coca-Cola', price: 1.99 },
-            'beverages-2': { name: 'Sprite', title: 'Sprite', price: 1.99 },
-            'desserts-1': { name: 'McFlurry', title: 'McFlurry', price: 3.99 },
-            'desserts-2': { name: 'Apple Pie', title: 'Apple Pie', price: 1.99 }
-        };
-        
-        const menuItem = staticMenuItems[productId];
-        if (!menuItem) {
-            console.error('Product not found:', productId);
-            return res.redirect('/menu');
+        const product = await MenuItem.findById(productId);
+        if (!product) {
+            return res.status(404).render('error', {
+                title: 'Error',
+                message: 'Product not found',
+                error: {}
+            });
         }
         
         const cartItem = req.session.cart.find(item => item.productId.toString() === productId);
@@ -48,12 +41,12 @@ router.post('/add/:productId', initializeCart, (req, res) => {
         if (cartItem) {
             cartItem.quantity += quantity;
         } else {
-            // Add with proper info from static data
+            // Add with proper info from database
             req.session.cart.push({
-                productId: productId,
-                name: menuItem.name,
-                title: menuItem.title,
-                price: menuItem.price,
+                productId: product._id,
+                name: product.name,
+                title: product.name,
+                price: product.price,
                 quantity: quantity
             });
         }
@@ -61,7 +54,11 @@ router.post('/add/:productId', initializeCart, (req, res) => {
         res.redirect('/cart');
     } catch (error) {
         console.error('Error adding to cart:', error);
-        res.redirect('/cart');
+        res.status(500).render('error', {
+            title: 'Error',
+            message: 'Error adding to cart',
+            error: process.env.NODE_ENV === 'development' ? error : {}
+        });
     }
 });
 
@@ -165,10 +162,10 @@ router.get('/checkout', initializeCart, (req, res) => {
     }
 });
 
-// Place order (no database required)
-router.post('/place-order', initializeCart, (req, res) => {
+// Place order
+router.post('/place-order', initializeCart, async (req, res) => {
     try {
-        const { name, phone, address, notes, paymentMethod } = req.body;
+        const { name, phone, address, notes, paymentMethod, cardNumber, cardName, expiryDate, cvv } = req.body;
         const cart = req.session.cart || [];
 
         if (cart.length === 0) {
@@ -180,22 +177,51 @@ router.post('/place-order', initializeCart, (req, res) => {
         }
 
         const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+        const orderData = {
+            user: {
+                name,
+                phone,
+                address
+            },
+            items: cart.map(item => ({
+                product: item.productId,
+                title: item.title || item.name,
+                quantity: item.quantity,
+                price: item.price
+            })),
+            totalAmount,
+            notes: notes || '',
+            paymentMethod: paymentMethod || 'cash',
+            paymentDetails: paymentMethod === 'card' ? {
+                cardNumber: cardNumber ? cardNumber.slice(-4) : null, // Only store last 4 digits
+                cardName,
+                expiryDate
+            } : null,
+            status: 'pending'
+        };
+
+        // Add userId if user is authenticated
+        if (req.user && req.user._id) {
+            orderData.userId = req.user._id;
+        }
+
+        const order = new Order(orderData);
+        await order.save();
         
         // Clear the cart
         req.session.cart = [];
         
         res.render('pages/order-success', {
             title: 'Order Placed Successfully',
-            orderId: 'DEMO-' + Date.now()
+            orderId: order._id
         });
     } catch (error) {
         console.error('Error placing order:', error);
-        
-        // Always succeed
-        req.session.cart = [];
-        res.render('pages/order-success', {
-            title: 'Order Placed Successfully',
-            orderId: 'DEMO-' + Date.now()
+        res.status(500).render('error', {
+            title: 'Error',
+            message: 'Error placing order',
+            error: process.env.NODE_ENV === 'development' ? error : {}
         });
     }
 });

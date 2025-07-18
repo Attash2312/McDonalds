@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(methodOverride('_method'));
 
-// Sessions - Use MongoDB for session storage with fallback
+// Sessions - Use MongoDB for session storage
 let sessionConfig = {
     secret: process.env.SESSION_SECRET || 'your-secret-key',
     resave: true,
@@ -41,9 +41,18 @@ let sessionConfig = {
     }
 };
 
-// Use MemoryStore for sessions (guaranteed to work)
-console.log('Using MemoryStore for sessions');
-sessionConfig.store = undefined;
+// Use MongoDB for session storage
+console.log('Using MongoDB for session storage');
+try {
+    sessionConfig.store = MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI,
+        collectionName: 'sessions'
+    });
+} catch (error) {
+    console.error('Failed to create MongoDB session store:', error);
+    console.log('Falling back to MemoryStore');
+    sessionConfig.store = undefined;
+}
 
 // Connect to Database asynchronously (better for serverless)
 const initializeDatabase = async () => {
@@ -185,10 +194,8 @@ app.use((err, req, res, next) => {
     }
 });
 
-// Only start the server if we're not in a serverless environment
-if (process.env.NODE_ENV !== 'production') {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 module.exports = app;
