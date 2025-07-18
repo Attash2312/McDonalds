@@ -220,5 +220,3 @@ Project/
 - Test database connection at `/auth/test-connection`
 
 ---
-
-**Happy Coding! 🍟🍔🍦** 
